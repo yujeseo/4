@@ -7,53 +7,69 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
 
-    public int score = 0;
-    public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI highScoreText;
+    public TextMeshProUGUI scoreText;       // 현재 점수 UI
+    public TextMeshProUGUI totalScoreText;  // 누적 점수 UI
 
-    private int highScore;
+    private int score = 0;
+    private int totalScore = 0;
+
+    private const string TotalScoreKey = "TotalScore";
 
     void Awake()
     {
         if (Instance == null)
             Instance = this;
 
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        totalScore = PlayerPrefs.GetInt(TotalScoreKey, 0);
+    }
+
+    void Start()
+    {
+        UpdateUI();
     }
 
     public void AddScore(int amount)
     {
         score += amount;
-        UpdateScoreUI();
+        UpdateUI();
     }
 
     public void GameOver()
     {
-        // 최고 점수 갱신
-        if (score > highScore)
-        {
-            highScore = score;
-            PlayerPrefs.SetInt("HighScore", highScore);
-        }
-        UpdateHighScoreUI();
+        totalScore += score;
+        PlayerPrefs.SetInt(TotalScoreKey, totalScore);
+        PlayerPrefs.Save();
+        UpdateUI();
     }
 
+    public bool SpendScore(int amount)
+    {
+        if (totalScore >= amount)
+        {
+            totalScore -= amount;
+            PlayerPrefs.SetInt(TotalScoreKey, totalScore);
+            PlayerPrefs.Save();
+            UpdateUI();
+            return true;
+        }
 
+        return false;
+    }
 
-    void UpdateScoreUI()
+    public int GetTotalScore()
+    {
+        return totalScore;
+    }
+
+    void UpdateUI()
     {
         if (scoreText != null)
-            scoreText.text = "현재 점수: " + score.ToString();
+            scoreText.text = "현재 점수: " + score;
+
+        if (totalScoreText != null)
+            totalScoreText.text = "총 누적 점수: " + totalScore;
     }
-
-    void UpdateHighScoreUI()
-    {
-        if (highScoreText != null)
-            highScoreText.text = "High Score: " + highScore.ToString();
-    }
-
-
-
-
 }
+
+
 

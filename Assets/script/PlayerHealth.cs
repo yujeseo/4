@@ -29,6 +29,17 @@ public class PlayerHealth : MonoBehaviour
     void Die()
     {
         Debug.Log("플레이어 사망");
+        ScoreManager.Instance.GameOver();
+        GameOverManager.Instance.ShowGameOver();
         gameObject.SetActive(false);
+
+
+    }
+
+    public void Heal(int amount)
+    {
+        currentHealth += amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        UIManager.Instance.UpdateHealth(currentHealth);
     }
 }

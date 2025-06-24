@@ -6,18 +6,29 @@ public class Enemy : MonoBehaviour
 {
     public float speed = 2f;
     private Transform player;
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         player = GameObject.FindWithTag("Player").transform;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
+
+        if (ShopUI.Instance != null && ShopUI.Instance.IsShopOpen)
+            return;
+
+
+
         if (player != null)
         {
             Vector2 direction = (player.position - transform.position).normalized;
             transform.Translate(direction * speed * Time.deltaTime);
+
+            if (direction.x != 0)
+                spriteRenderer.flipX = direction.x < 0;
         }
     }
 
@@ -27,7 +38,7 @@ public class Enemy : MonoBehaviour
         if (other.CompareTag("Bullet"))
         {
             Destroy(other.gameObject);
-            Destroy(gameObject);
+            
         }
 
         

@@ -22,6 +22,16 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+
+        if (ShopUI.Instance != null && ShopUI.Instance.IsShopOpen)
+        {
+            moveInput = Vector2.zero;
+            animator.SetFloat("Speed", 0); // 애니메이션도 멈춤
+            return;
+        }
+
+
+
         // 입력 처리
         moveInput.x = Input.GetAxisRaw("Horizontal");
         moveInput.y = Input.GetAxisRaw("Vertical");

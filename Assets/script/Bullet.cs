@@ -6,8 +6,10 @@ public class Bullet : MonoBehaviour
 {
     public float speed = 10f;
     public float lifeTime = 3f;
+    public int damage = 10;
 
     private Vector2 direction;
+    private bool hasHit = false;
 
     public void SetDirection(Vector2 dir)
     {
@@ -25,12 +27,19 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+
+        if (hasHit) return; // 이미 충돌한 경우 무시
+        hasHit = true;
+
         if (other.CompareTag("Enemy"))
         {
-            Destroy(other.gameObject); // 적 제거
-            Destroy(gameObject);       // 총알 제거
+            EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(damage);
+            }
 
-            ScoreManager.Instance.AddScore(100);
+            Destroy(gameObject); // 총알 삭제
         }
     }
 
