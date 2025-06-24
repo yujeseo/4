@@ -69,6 +69,8 @@ public class ScoreManager : MonoBehaviour
         if (totalScoreText != null)
             totalScoreText.text = "현재 보유한 재화: " + totalScore;
     }
+
+    
 }
 
 
