@@ -42,4 +42,11 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         UIManager.Instance.UpdateHealth(currentHealth);
     }
+
+    public void IncreaseMaxHealth(int amount)
+    {
+        maxHealth += amount;
+        currentHealth = maxHealth; 
+        Debug.Log("최대 체력 증가! 현재 체력: " + currentHealth + ", 최대 체력: " + maxHealth);
+    }
 }

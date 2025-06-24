@@ -7,8 +7,8 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
 
-    public TextMeshProUGUI scoreText;       // 현재 점수 UI
-    public TextMeshProUGUI totalScoreText;  // 누적 점수 UI
+    public TextMeshProUGUI scoreText;      
+    public TextMeshProUGUI totalScoreText;  
 
     private int score = 0;
     private int totalScore = 0;
@@ -64,10 +64,10 @@ public class ScoreManager : MonoBehaviour
     void UpdateUI()
     {
         if (scoreText != null)
-            scoreText.text = "현재 점수: " + score;
+            scoreText.text = "얻은 점수: " + score;
 
         if (totalScoreText != null)
-            totalScoreText.text = "총 누적 점수: " + totalScore;
+            totalScoreText.text = "현재 보유한 재화: " + totalScore;
     }
 }
 
